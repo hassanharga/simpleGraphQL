@@ -5,8 +5,11 @@ const {
   GraphQLString,
   GraphQLSchema,
   GraphQLList,
+  GraphQLNonNull,
 } = require('graphql');
 
+
+const url = 'http://localhost:3000/customars';
 
 // hardcoded data
 // const customars = [
@@ -71,14 +74,59 @@ const rootQuery = new GraphQLObjectType({
         //     return customars[x];
         //   }
         // }
-        return axios.get(`http://localhost:3000/customars/${args.id}`)
+        return axios.get(`${url}/${args.id}`)
           .then((res) => res.data);
       },
     },
     customars: {
       type: GraphQLList(customarType),
       resolve() {
-        return axios.get('http://localhost:3000/customars/')
+        return axios.get(url)
+          .then((res) => res.data);
+      },
+    },
+  },
+});
+
+// mutations
+const mutation = new GraphQLObjectType({
+  name: 'mutation',
+  fields: {
+    addCustomar: {
+      type: customarType,
+      args: {
+        name: { type: new GraphQLNonNull(GraphQLString) },
+        email: { type: new GraphQLNonNull(GraphQLString) },
+        age: { type: new GraphQLNonNull(GraphQLInt) },
+      },
+      resolve(parentValue, args) {
+        return axios.post(url, {
+          name: args.name,
+          email: args.email,
+          age: args.age,
+        }).then((res) => res.data);
+      },
+    },
+    deleteCustomar: {
+      type: customarType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLInt) },
+      },
+      resolve(parentValue, args) {
+        return axios.delete(`${url}/${args.id}`)
+          .then((res) => res.data);
+      },
+    },
+    editCustomar: {
+      type: customarType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLInt) },
+        name: { type: GraphQLString },
+        email: { type: GraphQLString },
+        age: { type: GraphQLInt },
+      },
+      resolve(parentValue, args) {
+        return axios.patch(`${url}/${args.id}`, { ...args })
           .then((res) => res.data);
       },
     },
@@ -87,4 +135,5 @@ const rootQuery = new GraphQLObjectType({
 
 module.exports = new GraphQLSchema({
   query: rootQuery,
+  mutation,
 });

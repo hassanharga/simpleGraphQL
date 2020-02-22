@@ -1,5 +1,5 @@
 {
-    "customars": [
+  "customars": [
     {
       "id": 1,
       "name": "ali",
@@ -28,8 +28,7 @@
       "id": 5,
       "name": "mohamed",
       "email": "mo@mo.com",
-      "age": 74
+      "age": 555
     }
-  
   ]
 }
