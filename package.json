@@ -1,16 +1,25 @@
 {
-  "name": "graphql",
+  "name": "node-graphql",
   "version": "1.0.0",
   "description": "simple qraphql project",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "json:server": "json-server --watch data.json"
   },
   "keywords": [],
   "author": "HaSsan",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
     "express": "^4.17.1",
-    "express-graphql": "^0.9.0"
+    "express-graphql": "^0.9.0",
+    "graphql": "^14.6.0",
+    "json-server": "^0.16.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1"
   }
 }
